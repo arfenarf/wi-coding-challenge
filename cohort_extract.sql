@@ -1,6 +1,6 @@
 SELECT DISTINCT june_admits.SUBJECT_ID,
                 june_admits.DOB,
-                june_admits.GENDER -- 381 rows
+                june_admits.GENDER -- 228 rows
         FROM (SELECT DISTINCT T.SUBJECT_ID,
                               HADM_ID,
                               INTIME,
@@ -28,6 +28,6 @@ SELECT DISTINCT june_admits.SUBJECT_ID,
         INNER JOIN
              (SELECT distinct SUBJECT_ID, HADM_ID
               from DIAGNOSES
-              WHERE (SUBSTR(DIAGNOSES.ICD9_CODE, 1, 3) like '42%')) dx -- 20,000 pts (of any age, any admit)
+              WHERE (SUBSTR(DIAGNOSES.ICD9_CODE, 1, 3) like '428%')) dx -- 13,608 pts (of any age, any admit)
                ON june_admits.SUBJECT_ID = dx.SUBJECT_ID
                AND june_admits.HADM_ID = dx.HADM_ID;
