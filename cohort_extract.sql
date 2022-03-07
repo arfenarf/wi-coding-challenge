@@ -16,7 +16,7 @@ SELECT DISTINCT june_admits.SUBJECT_ID,
                                    on T.SUBJECT_ID = pts.SUBJECT_ID
                           WHERE T.EVENTTYPE = 'admit'
                             AND INTIME BETWEEN '2000-06-01' AND '2000-07-01'
-                            AND (julianday(T.INTIME) - julianday(pts.DOB)) / 365 > 18) june_admits -- 2402 pts
+                            AND (julianday(T.INTIME) - julianday(pts.DOB)) / 365 >= 18) june_admits -- 2402 pts
         INNER JOIN
              (SELECT distinct SUBJECT_ID, HADM_ID
                   FROM LABS
@@ -29,4 +29,5 @@ SELECT DISTINCT june_admits.SUBJECT_ID,
              (SELECT distinct SUBJECT_ID, HADM_ID
               from DIAGNOSES
               WHERE (SUBSTR(DIAGNOSES.ICD9_CODE, 1, 3) like '42%')) dx -- 20,000 pts (of any age, any admit)
-               ON june_admits.SUBJECT_ID = dx.SUBJECT_ID AND june_admits.HADM_ID = dx.HADM_ID;
+               ON june_admits.SUBJECT_ID = dx.SUBJECT_ID
+               AND june_admits.HADM_ID = dx.HADM_ID;
